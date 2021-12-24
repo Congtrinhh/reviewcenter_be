@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.org/dtd/hibernate-reverse-engineering-3.0.dtd" >
+
+<hibernate-reverse-engineering>
+  <table-filter match-catalog="reviewcenter" match-name="category"/>
+  <table-filter match-catalog="reviewcenter" match-name="center"/>
+  <table-filter match-catalog="reviewcenter" match-name="rating"/>
+  <table-filter match-catalog="reviewcenter" match-name="resource"/>
+  <table-filter match-catalog="reviewcenter" match-name="role"/>
+  <table-filter match-catalog="reviewcenter" match-name="role_resource"/>
+  <table-filter match-catalog="reviewcenter" match-name="user"/>
+  <table-filter match-catalog="reviewcenter" match-name="user_role"/>
+</hibernate-reverse-engineering>
