@@ -15,6 +15,7 @@ import com.trinhquycong.reviewcenter.dto.RatingSearchDto;
 import com.trinhquycong.reviewcenter.entity.Center;
 import com.trinhquycong.reviewcenter.entity.Rating;
 import com.trinhquycong.reviewcenter.entity.User;
+import com.trinhquycong.reviewcenter.util.GeneralUtils;
 
 public class RatingSpecification implements Specification<Rating> {
 
@@ -45,7 +46,7 @@ public class RatingSpecification implements Specification<Rating> {
 			predicates.add(cb.equal(user.get("id"), search.getUserId()));
 		}
 		if (search.getRate()!=null) {
-			predicates.add(cb.equal(root.get("rate"), search.getRate()));
+			predicates.add(cb.equal(root.get("rate"), GeneralUtils.getRateNumber(search.getRate())));
 		}
 		if (search.getActive()!=null) {
 			predicates.add(cb.equal(root.get("active"), search.getActive()));

@@ -7,6 +7,7 @@ import java.util.Map;
 import javax.validation.Valid;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.convention.MatchingStrategies;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -62,6 +63,7 @@ public class CenterAdminController {
 		}
 
 		Center center = toEntity(centerDto);
+		center.setActive(true);
 		center.setCreatedAt(Calendar.getInstance().getTime());
 
 		center = centerRepo.save(center);
@@ -72,8 +74,10 @@ public class CenterAdminController {
 		return responseEntity;
 	}
 
+	// body request nhớ dùng centerSize thay vì size
 	private Center toEntity(CenterDto dto) {
 		// TODO Auto-generated method stub
+		modelMapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
 		Center center = modelMapper.map(dto, Center.class);
 		center.setSize(dto.getCenterSize());
 		
@@ -137,14 +141,9 @@ public class CenterAdminController {
 			@Valid CenterSearchDto filter) {
 
 		Pageable pageable = PageRequest.of(pageIndex, size);
-
-		Page<Center> page;
-		
-		//Specification<Center> specs = CenterSpecs.nameContains(" "); 
-		//page = centerRepo.findAll(specs, pageable);
 		
 		Specification<Center> specs = new CenterSpecification(filter);
-		page = centerRepo.findAll(specs, pageable);
+		Page<Center> page = centerRepo.findAll(specs, pageable);
 		
 		Page<CenterDto> dtoPage = page.map(this::toDto);
 		
@@ -162,6 +161,7 @@ public class CenterAdminController {
 		Center center = centerRepo.getById(id);
 		if (center!=null) {
 			center.setActive(false);
+			center.setUpdatedAt(Calendar.getInstance().getTime());
 			centerRepo.save(center);
 		}
 	}
@@ -172,11 +172,11 @@ public class CenterAdminController {
 		Center center = centerRepo.getById(id);
 		if (center!=null) {
 			center.setActive(true);
+			center.setUpdatedAt(Calendar.getInstance().getTime());
 			center=  centerRepo.save(center);
 			return modelMapper.map(center, CenterDto.class);
 		}
 		return null;
 	}
-	
 	
 }
